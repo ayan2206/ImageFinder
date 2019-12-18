@@ -1,6 +1,6 @@
 import flask
 import werkzeug
-from flask import request, redirect
+from flask import request, redirect, jsonify
 from werkzeug.utils import secure_filename
 
 import os
@@ -35,69 +35,55 @@ def allowed_image_filesize(filesize):
 @app.route("/upload-image", methods=["GET", "POST"])
 def upload_image():
 
+    result_array = []
+    print("in upload image method")
+
     if request.method == "POST":
+
+        print("request is POST")
 
         if request.files:
 
             if 'file' not in request.files:
                 print("file not there")
+                return jsonify(result_array)
 
             file = request.files['file']
             if file.filename == '':
-                print('No selected file')
-                return "No selected file"
-
-            # if file and allowed_image(file.filename):
-            #     print("file allowed")
-            #     return
-
-            # imageFile = request.files['image']
-            # filename = secure_filename(imageFile.filename)
-            # path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            # print("path - ", path)
-            # file.save(path)
-            # return "file saved"
+                print("No selected file")
+                return jsonify(result_array)
 
             print('Trying to save file')
             filename = secure_filename(file.filename)
             path = os.path.join(app.config['IMAGE_UPLOADS'], filename)
             print("path - ", path)
             file.save(path)
-            return "file saved"
+            print("file saved")
+
+            result_array.append("f_16514932")
+            result_array.append("f_12753691")
+            result_array.append("f_17028422")
+            result_array.append("f_16824992")
+            result_array.append("f_16514932")
+            result_array.append("f_12753691")
+            result_array.append("f_15936972")
+            result_array.append("f_4167993")
+
+            return jsonify(result_array)
+
+        else:
+            print("request does not have any file")
+
+    else:
+        print("request is not POST, its - ", request.method)
 
 
-
-
-
-
-            if "filesize" in request.cookies:
-                print("here")
-                if not allowed_image_filesize(request.cookies["filesize"]):
-                    print("Filesize exceeded maximum limit")
-                    return redirect(request.url)
-
-                image = request.files["image"]
-
-                if image.filename == "":
-                    print("No filename")
-                    return redirect(request.url)
-
-                if allowed_image(image.filename):
-                    filename = secure_filename(image.filename)
-
-                    image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-
-                    print("Image saved")
-
-                    return redirect(request.url)
-
-                else:
-                    print("That file extension is not allowed")
-                    return redirect(request.url)
-
-    return "try uploading image"
+    print("Upload Failed.. Try again")
+    return jsonify(result_array)
 
 app.run()
+
+
 
 
 
