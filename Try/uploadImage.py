@@ -1,7 +1,8 @@
 import flask
-import werkzeug
-from flask import request, redirect, jsonify
+from flask import request, jsonify
 from werkzeug.utils import secure_filename
+# from Try.search import search
+from search import search
 
 import os
 
@@ -60,14 +61,17 @@ def upload_image():
             file.save(path)
             print("file saved")
 
-            result_array.append("f_16514932")
-            result_array.append("f_12753691")
-            result_array.append("f_17028422")
-            result_array.append("f_16824992")
-            result_array.append("f_16514932")
-            result_array.append("f_12753691")
-            result_array.append("f_15936972")
-            result_array.append("f_4167993")
+            result_array = search(path)
+
+
+            # result_array.append("f_16514932")
+            # result_array.append("f_12753691")
+            # result_array.append("f_17028422")
+            # result_array.append("f_16824992")
+            # result_array.append("f_16514932")
+            # result_array.append("f_12753691")
+            # result_array.append("f_15936972")
+            # result_array.append("f_4167993")
 
             return jsonify(result_array)
 
