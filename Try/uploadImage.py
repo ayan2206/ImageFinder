@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from search import search
 
 import os
+import datetime
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -61,6 +62,7 @@ def upload_image():
             file.save(path)
             print("file saved")
 
+            one = datetime.datetime.now()
             result_array = search(path)
 
 
@@ -73,6 +75,9 @@ def upload_image():
             # result_array.append("f_15936972")
             # result_array.append("f_4167993")
 
+            print("similarity found for ", result_array)
+            two = datetime.datetime.now()
+            print("time took to find similar Items - ", (two - one))
             return jsonify(result_array)
 
         else:
