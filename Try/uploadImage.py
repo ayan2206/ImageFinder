@@ -4,6 +4,9 @@ from werkzeug.utils import secure_filename
 # from Try.search import search
 from search import search
 
+from lshash import lshash
+import pickle
+
 import os
 import datetime
 
@@ -12,6 +15,10 @@ app.config["DEBUG"] = True
 app.config["IMAGE_UPLOADS"] = "./uploads"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
+
+lsh = lshash.LSHash(hash_size=10, input_dim=2048, num_hashtables=5)
+# Find similar items
+lsh = pickle.load(open('lsh.p', 'rb'))
 
 def allowed_image(filename):
 
@@ -63,7 +70,7 @@ def upload_image():
             print("file saved")
 
             one = datetime.datetime.now()
-            result_array = search(path)
+            result_array = search(path, lsh)
 
 
             # result_array.append("f_16514932")

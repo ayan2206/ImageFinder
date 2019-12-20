@@ -79,13 +79,9 @@ def get_similar_item(query_vec, lsh_variable, n_items=5):
     return top_k_sim_img
 
 
-def search(input_image_path):
+def search(input_image_path, lsh):
     # For image embeddings
     cnnmodel = ImageEncoder('resnet152')
-    lsh = lshash.LSHash(hash_size=10, input_dim=2048, num_hashtables=5)
-
-    # Find similar items
-    lsh = pickle.load(open('lsh.p', 'rb'))
 
     test_image_file = input_image_path
     query_vec, _ = extract_feats(test_image_file, cnnmodel)
